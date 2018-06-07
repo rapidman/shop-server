@@ -3,6 +3,7 @@ package com.ajax.shop.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -10,6 +11,7 @@ import java.util.List;
  * 11.05.18
  */
 @Entity
+@Table(name = "category", schema = "ajax")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,9 +19,11 @@ import java.util.List;
 @EqualsAndHashCode
 public class Category {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(sequenceName = "ajax.category_id_seq", name = "categoryIdSequence", allocationSize = 1)
+    @GeneratedValue(generator = "categoryIdSequence", strategy = GenerationType.SEQUENCE)
     private Long id;
-    private @NonNull String name;
+    @NotBlank
+    private String name;
     @OneToMany(mappedBy = "category")
     private List<Goods> goodsList;
 }
