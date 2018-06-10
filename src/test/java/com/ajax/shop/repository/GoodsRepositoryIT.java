@@ -2,6 +2,7 @@ package com.ajax.shop.repository;
 
 import com.ajax.shop.config.TestDBConfig;
 import com.ajax.shop.entity.Category;
+import com.ajax.shop.entity.Goods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,48 +18,52 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
  * 07.06.18
  */
-@SpringBootTest(classes = {CategoryRepositoryIT.TestConfiguration.class, TestDBConfig.class})
+@SpringBootTest(classes = {GoodsRepositoryIT.TestConfiguration.class, TestDBConfig.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource("classpath:test.properties")
-public class CategoryRepositoryIT {
+public class GoodsRepositoryIT {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private GoodsRepository goodsRepository;
 
     @Test
     public void testCrud() {
         //given:
-        Category category = createCategory();
-
-        //when:
+        Category category = CategoryRepositoryIT.createCategory();
         categoryRepository.save(category);
 
+        Goods goods = new Goods();
+        goods.setName("goods name");
+        goods.setCategory(category);
+        category.setGoodsList(Arrays.asList(goods));
+
+        //when:
+        goodsRepository.save(goods);
+
         //then:
-        assertEquals(category, categoryRepository.findById(category.getId()).get());
-        assertEquals(category,
-                categoryRepository
-                        .findByNameIgnoreCaseContainingOrderByName("test name", PageRequest.of(0, 10))
+        assertEquals(goods, goodsRepository.findById(goods.getId()).get());
+        assertEquals(goods,
+                goodsRepository
+                        .findByCategoryNameIgnoreCaseContainingOrderByName(category.getName(), PageRequest.of(0, 10))
                         .iterator()
                         .next());
 
         //and
-        categoryRepository.deleteById(category.getId());
-        assertFalse(categoryRepository.findById(category.getId()).isPresent());
-    }
+        goodsRepository.deleteById(goods.getId());
+        assertFalse(goodsRepository.findById(goods.getId()).isPresent());
 
-    public static Category createCategory() {
-        Category category = new Category();
-        category.setName("test name");
-        return category;
     }
 
 
