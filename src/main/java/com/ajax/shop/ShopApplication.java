@@ -6,12 +6,15 @@ import com.ajax.shop.entity.Goods;
 import com.ajax.shop.repository.CarRepository;
 import com.ajax.shop.repository.CategoryRepository;
 import com.ajax.shop.repository.GoodsRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.Ordered;
+import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
+import org.springframework.jmx.support.RegistrationPolicy;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -33,13 +36,13 @@ public class ShopApplication {
                            GoodsRepository goodsRepository,
                            CategoryRepository categoryRepository) {
         return args -> {
-            Stream.of("Ferrari", "Jaguar", "Porsche", "Lamborghini", "Bugatti",
-                    "AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV").forEach(name -> {
-                Car car = new Car();
-                car.setName(name);
-                carRepository.save(car);
-            });
-            carRepository.findAll().forEach(System.out::println);
+//            Stream.of("Ferrari", "Jaguar", "Porsche", "Lamborghini", "Bugatti",
+//                    "AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV").forEach(name -> {
+//                Car car = new Car();
+//                car.setName(name);
+//                carRepository.save(car);
+//            });
+//            carRepository.findAll().forEach(System.out::println);
             Stream.of("Джинсы", "Рубашки", "Подушки", "Матрацы", "Носки").forEach(name -> {
                 Category category = new Category();
                 category.setName(name);
@@ -57,18 +60,4 @@ public class ShopApplication {
         };
     }
 
-    @Bean
-    @SuppressWarnings("unchecked")
-    public FilterRegistrationBean simpleCorsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
-        config.setAllowedMethods(Collections.singletonList("*"));
-        config.setAllowedHeaders(Collections.singletonList("*"));
-        source.registerCorsConfiguration("/**", config);
-        FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
-        bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
-        return bean;
-    }
 }
