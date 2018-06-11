@@ -1,5 +1,7 @@
 package com.ajax.shop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -14,7 +16,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"category"})
 @EqualsAndHashCode
 public class Goods {
     @Id
@@ -23,7 +25,8 @@ public class Goods {
     private Long id;
     @NotBlank
     private String name;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonIgnore
     private Category category;
 }

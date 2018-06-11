@@ -1,6 +1,9 @@
 package com.ajax.shop.entity;
 
 import lombok.*;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
+@ToString(exclude = {"goodsList"})
 @EqualsAndHashCode
 public class Category {
     @Id
@@ -24,6 +27,7 @@ public class Category {
     private Long id;
     @NotBlank
     private String name;
+    @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Goods> goodsList;
 }

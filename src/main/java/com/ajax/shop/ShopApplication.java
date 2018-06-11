@@ -43,20 +43,23 @@ public class ShopApplication {
 //                carRepository.save(car);
 //            });
 //            carRepository.findAll().forEach(System.out::println);
-            Stream.of("Джинсы", "Рубашки", "Подушки", "Матрацы", "Носки").forEach(name -> {
-                Category category = new Category();
-                category.setName(name);
-                categoryRepository.save(category);
-                List<Goods> goodsList = new ArrayList<>();
-                for (int i = 0; i < 10; i++) {
-                    Goods goods = new Goods();
-                    goods.setCategory(category);
-                    goods.setName(name + i);
-                    goodsList.add(goods);
-                    goodsRepository.save(goods);
-                }
-                category.setGoodsList(goodsList);
-            });
+            if(goodsRepository.findAll().isEmpty()){
+
+                Stream.of("Джинсы", "Рубашки", "Подушки", "Матрацы", "Носки").forEach(name -> {
+                    Category category = new Category();
+                    category.setName(name);
+                    categoryRepository.save(category);
+                    List<Goods> goodsList = new ArrayList<>();
+                    for (int i = 0; i < 10; i++) {
+                        Goods goods = new Goods();
+                        goods.setCategory(category);
+                        goods.setName(name + i);
+                        goodsList.add(goods);
+                        goodsRepository.save(goods);
+                    }
+                    category.setGoodsList(goodsList);
+                });
+            }
         };
     }
 
