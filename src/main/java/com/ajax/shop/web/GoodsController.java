@@ -1,14 +1,12 @@
 package com.ajax.shop.web;
 
+import com.ajax.shop.Constants;
 import com.ajax.shop.entity.Goods;
-import com.ajax.shop.repository.GoodsRepository;
+import com.ajax.shop.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
@@ -18,11 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class GoodsController {
     @Autowired
-    private GoodsRepository goodsRepository;
+    private DataService dataService;
 
-    @GetMapping("/goods")
+    @GetMapping(Constants.GOODS_URI)
     @CrossOrigin(origins = "http://localhost:4200")
-    public Page<Goods> findGoods(Pageable pageable){
-        return goodsRepository.findAll(pageable);
+    public Page<Goods> findGoods(@RequestParam(required = false) String categoryId,
+                                 Pageable pageable) {
+        return null;
     }
 }

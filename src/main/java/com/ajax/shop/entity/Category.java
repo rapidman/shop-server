@@ -3,7 +3,6 @@ package com.ajax.shop.entity;
 import lombok.*;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.springframework.context.annotation.Lazy;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -30,4 +29,6 @@ public class Category {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Goods> goodsList;
+    @Transient
+    private String link;
 }
