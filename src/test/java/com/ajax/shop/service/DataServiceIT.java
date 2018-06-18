@@ -22,15 +22,12 @@ import org.springframework.context.annotation.PropertySources;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jmx.export.annotation.AnnotationMBeanExporter;
-import org.springframework.jmx.support.RegistrationPolicy;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
@@ -79,14 +76,10 @@ public class DataServiceIT {
     static class TestConfiguration {
 
         @Bean
-        DataService dataService(){
+        DataService dataService() {
             return new DataServiceImpl();
         }
 
-//        @Autowired
-//        void mbeanExporter(AnnotationMBeanExporter mBeanExporter) {
-//            mBeanExporter.setRegistrationPolicy(RegistrationPolicy.IGNORE_EXISTING);
-//        }
     }
 
 }

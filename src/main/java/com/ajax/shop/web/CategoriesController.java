@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 12.05.18
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class CategoriesController {
     @Autowired
     private DataService dataService;
