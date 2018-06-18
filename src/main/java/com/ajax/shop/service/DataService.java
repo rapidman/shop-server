@@ -15,4 +15,6 @@ public interface DataService {
     Page<Category> getAllCategories(Pageable pageable);
 
     Page<Goods> findGoods(GoodsSearchCriteria searchCriteria, Pageable pageable);
+
+    Goods findGoodsById(Long goodsId);
 }

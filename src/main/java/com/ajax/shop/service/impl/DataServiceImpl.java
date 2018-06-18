@@ -35,4 +35,10 @@ public class DataServiceImpl implements DataService{
     public Page<Goods> findGoods(GoodsSearchCriteria searchCriteria, Pageable pageable){
         return goodsRepository.findAll(GoodsSpecifications.goodsBelongsToCategory(searchCriteria.getCategoryId()), pageable);
     }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Goods findGoodsById(Long goodsId) {
+        return goodsRepository.getOne(goodsId);
+    }
 }
