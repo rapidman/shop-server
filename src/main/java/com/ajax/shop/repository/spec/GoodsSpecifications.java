@@ -6,7 +6,7 @@ import com.querydsl.core.types.Predicate;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
- * 17.06.18
+ * @since 17.06.18
  */
 public class GoodsSpecifications {
     public static Predicate goodsBelongsToCategory(Long categoryId) {

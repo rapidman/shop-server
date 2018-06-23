@@ -1,6 +1,7 @@
 package com.ajax.shop.service;
 
 import com.ajax.shop.config.TestDBConfig;
+import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
@@ -47,7 +48,7 @@ public class DataServiceIT {
     private DataService dataService;
 
     @Test
-    public void test() {
+    public void testFindGoods() {
         //given:
         Category category = CategoryRepositoryIT.createCategory();
         categoryRepository.save(category);
@@ -61,6 +62,27 @@ public class DataServiceIT {
 
         //when:
         Page<Goods> result = dataService.findGoods(searchCriteria, PageRequest.of(0, 10));
+
+        //then:
+        assertEquals(1, result.getTotalElements());
+    }
+
+    @Test
+    public void testFindCategories() {
+        //given:
+        Category category = CategoryRepositoryIT.createCategory();
+        categoryRepository.save(category);
+
+        Goods goods = new Goods();
+        String goodsName = "goods name";
+        goods.setName(goodsName);
+        goods.setCategory(category);
+        category.setGoodsList(Arrays.asList(goods));
+        goodsRepository.save(goods);
+        CategoriesSearchCriteria searchCriteria = new CategoriesSearchCriteria().withQuery("goods");
+
+        //when:
+        Page<Category> result = dataService.findCategories(searchCriteria, PageRequest.of(0, 10));
 
         //then:
         assertEquals(1, result.getTotalElements());

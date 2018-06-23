@@ -1,10 +1,12 @@
 package com.ajax.shop.service.impl;
 
+import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
 import com.ajax.shop.repository.CategoryRepository;
 import com.ajax.shop.repository.GoodsRepository;
+import com.ajax.shop.repository.spec.CategorySpecifications;
 import com.ajax.shop.repository.spec.GoodsSpecifications;
 import com.ajax.shop.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,12 @@ public class DataServiceImpl implements DataService{
     @Override
     public Page<Goods> findGoods(GoodsSearchCriteria searchCriteria, Pageable pageable){
         return goodsRepository.findAll(GoodsSpecifications.goodsBelongsToCategory(searchCriteria.getCategoryId()), pageable);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Page<Category> findCategories(CategoriesSearchCriteria searchCriteria, Pageable pageable) {
+        return categoryRepository.findAll(CategorySpecifications.goodsBelongsToCategory(searchCriteria.getQuery()), pageable);
     }
 
     @Transactional(readOnly = true)
