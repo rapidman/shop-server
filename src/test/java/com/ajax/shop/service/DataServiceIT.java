@@ -3,8 +3,10 @@ package com.ajax.shop.service;
 import com.ajax.shop.config.TestDBConfig;
 import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.data.GoodsSearchCriteria;
+import com.ajax.shop.entity.Brand;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
+import com.ajax.shop.repository.BrandRepository;
 import com.ajax.shop.repository.CategoryRepository;
 import com.ajax.shop.repository.CategoryRepositoryIT;
 import com.ajax.shop.repository.GoodsRepository;
@@ -45,6 +47,8 @@ public class DataServiceIT {
     @Autowired
     private GoodsRepository goodsRepository;
     @Autowired
+    private BrandRepository brandRepository;
+    @Autowired
     private DataService dataService;
 
     @Test
@@ -68,7 +72,7 @@ public class DataServiceIT {
     }
 
     @Test
-    public void testFindCategories() {
+    public void testFindCategoriesByGoods() {
         //given:
         Category category = CategoryRepositoryIT.createCategory();
         categoryRepository.save(category);
@@ -80,6 +84,32 @@ public class DataServiceIT {
         category.setGoodsList(Arrays.asList(goods));
         goodsRepository.save(goods);
         CategoriesSearchCriteria searchCriteria = new CategoriesSearchCriteria().withQuery("goods");
+
+        //when:
+        Page<Category> result = dataService.findCategories(searchCriteria, PageRequest.of(0, 10));
+
+        //then:
+        assertEquals(1, result.getTotalElements());
+    }
+
+    @Test
+    public void testFindCategoriesByBrand() {
+        //given:
+        Category category = CategoryRepositoryIT.createCategory();
+        categoryRepository.save(category);
+
+        Brand brand = new Brand();
+        brand.setName("brandName");
+        brandRepository.save(brand);
+
+        Goods goods = new Goods();
+        String goodsName = "goods name";
+        goods.setName(goodsName);
+        goods.setCategory(category);
+        goods.setBrand(brand);
+        category.setGoodsList(Arrays.asList(goods));
+        goodsRepository.save(goods);
+        CategoriesSearchCriteria searchCriteria = new CategoriesSearchCriteria().withQuery("randNam");
 
         //when:
         Page<Category> result = dataService.findCategories(searchCriteria, PageRequest.of(0, 10));

@@ -2,8 +2,6 @@ package com.ajax.shop.repository;
 
 import com.ajax.shop.config.TestDBConfig;
 import com.ajax.shop.entity.Brand;
-import com.ajax.shop.entity.Category;
-import com.ajax.shop.entity.Goods;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,12 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.PropertySources;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -28,50 +23,30 @@ import static org.junit.Assert.assertFalse;
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
  * 07.06.18
  */
-@SpringBootTest(classes = {GoodsRepositoryIT.TestConfiguration.class, TestDBConfig.class})
+@SpringBootTest(classes = {BrandRepositoryIT.TestConfiguration.class, TestDBConfig.class})
 @RunWith(SpringRunner.class)
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource("classpath:test.properties")
-public class GoodsRepositoryIT {
-    @Autowired
-    private CategoryRepository categoryRepository;
-    @Autowired
-    private GoodsRepository goodsRepository;
+public class BrandRepositoryIT {
     @Autowired
     private BrandRepository brandRepository;
 
     @Test
     public void testCrud() {
         //given:
-        Category category = CategoryRepositoryIT.createCategory();
-        categoryRepository.save(category);
-
         Brand brand = new Brand();
         brand.setName("brandName");
-        brandRepository.save(brand);
-
-        Goods goods = new Goods();
-        goods.setName("goods name");
-        goods.setCategory(category);
-        category.setGoodsList(Arrays.asList(goods));
-        goods.setBrand(brand);
 
         //when:
-        goodsRepository.save(goods);
+        brandRepository.save(brand);
 
         //then:
-        assertEquals(goods, goodsRepository.findById(goods.getId()).get());
-        assertEquals(goods,
-                goodsRepository
-                        .findByCategoryNameIgnoreCaseContainingOrderByName(category.getName(), PageRequest.of(0, 10))
-                        .iterator()
-                        .next());
-        assertEquals(brand, goods.getBrand());
+        assertEquals(brand, brandRepository.findById(brand.getId()).get());
 
         //and
-        goodsRepository.deleteById(goods.getId());
-        assertFalse(goodsRepository.findById(goods.getId()).isPresent());
+        brandRepository.deleteById(brand.getId());
+        assertFalse(brandRepository.findById(brand.getId()).isPresent());
 
     }
 

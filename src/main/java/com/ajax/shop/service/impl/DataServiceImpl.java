@@ -9,6 +9,7 @@ import com.ajax.shop.repository.GoodsRepository;
 import com.ajax.shop.repository.spec.CategorySpecifications;
 import com.ajax.shop.repository.spec.GoodsSpecifications;
 import com.ajax.shop.service.DataService;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,7 +42,8 @@ public class DataServiceImpl implements DataService{
     @Transactional(readOnly = true)
     @Override
     public Page<Category> findCategories(CategoriesSearchCriteria searchCriteria, Pageable pageable) {
-        return categoryRepository.findAll(CategorySpecifications.goodsBelongsToCategory(searchCriteria.getQuery()), pageable);
+        Predicate predicate = CategorySpecifications.goodsBelongsToCategoryOrBrand(searchCriteria.getQuery());
+        return categoryRepository.findAll(predicate, pageable);
     }
 
     @Transactional(readOnly = true)
