@@ -2,13 +2,22 @@ package com.ajax.shop.web;
 
 import com.ajax.shop.Constants;
 import com.ajax.shop.data.CategoriesSearchCriteria;
+import com.ajax.shop.data.CategoryData;
+import com.ajax.shop.data.Group;
+import com.ajax.shop.data.Option;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
@@ -34,8 +43,20 @@ public class CategoriesController {
 
     @GetMapping(Constants.SEARCH_CATEGORIES_URI)
     @CrossOrigin(origins = "http://localhost:4200")
-    public Page<Category> findCategoriesByQuery(@RequestParam String query,
-                                                Pageable pageable) {
-        return dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
+    public Page<Group> findCategoriesByQuery(@RequestParam String query,
+                                             Pageable pageable) {
+        Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
+        List<Option> options = new ArrayList<>(categories.getNumberOfElements());
+        for (Category category : categories) {
+            options.add(new Option(Group.GroupType.CATEGORY, category.getName(), null, category.getId()));
+        }
+        return new PageImpl<>(Arrays.asList(new Group(Group.GroupType.CATEGORY, options)));
+    }
+
+    @GetMapping(Constants.CATEGORIES_URI + "/{catId}")
+    @CrossOrigin(origins = "http://localhost:4200")
+    public CategoryData findCategoryById(@PathVariable("catId") Long catId) {
+        Category entity = dataService.findCategoryById(catId);
+        return new CategoryData(entity.getId(), entity.getName());
     }
 }

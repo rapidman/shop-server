@@ -20,4 +20,6 @@ public interface DataService {
     Page<Category> findCategories(CategoriesSearchCriteria searchCriteria, Pageable pageable);
 
     Goods findGoodsById(Long goodsId);
+
+    Category findCategoryById(Long catId);
 }

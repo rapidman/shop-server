@@ -29,6 +29,9 @@ public class Category {
     @LazyCollection(LazyCollectionOption.TRUE)
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Goods> goodsList;
+
     @Transient
     private String link;
+    @Transient
+    private int goodsSize;
 }

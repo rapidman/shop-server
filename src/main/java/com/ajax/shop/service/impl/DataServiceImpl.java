@@ -30,7 +30,11 @@ public class DataServiceImpl implements DataService{
     @Transactional(readOnly = true)
     @Override
     public Page<Category> getAllCategories(Pageable pageable){
-        return categoryRepository.findAll(pageable);
+        Page<Category> result = categoryRepository.findAll(pageable);
+        for (Category category : result) {
+            category.setGoodsSize(category.getGoodsList().size());
+        }
+        return result;
     }
 
     @Transactional(readOnly = true)
@@ -50,5 +54,11 @@ public class DataServiceImpl implements DataService{
     @Override
     public Goods findGoodsById(Long goodsId) {
         return goodsRepository.getOne(goodsId);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public Category findCategoryById(Long catId) {
+        return categoryRepository.getOne(catId);
     }
 }
