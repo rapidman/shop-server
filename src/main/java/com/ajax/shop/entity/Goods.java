@@ -25,6 +25,7 @@ public class Goods {
     private Long id;
     @NotBlank
     private String name;
+    private String description;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     @JsonIgnore
@@ -32,4 +33,8 @@ public class Goods {
     @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
+    @Column(name = "goods_count")
+    private int goodsCount;
+    private long price;
+
 }

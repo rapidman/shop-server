@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
@@ -46,10 +47,7 @@ public class CategoriesController {
     public Page<Group> findCategoriesByQuery(@RequestParam String query,
                                              Pageable pageable) {
         Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
-        List<Option> options = new ArrayList<>(categories.getNumberOfElements());
-        for (Category category : categories) {
-            options.add(new Option(Group.GroupType.CATEGORY, category.getName(), null, category.getId()));
-        }
+        List<Option> options = categories.stream().map(c -> SearchAutocompleteController.createOption(c, null)).collect(Collectors.toList());
         return new PageImpl<>(Arrays.asList(new Group(Group.GroupType.CATEGORY, options)));
     }
 

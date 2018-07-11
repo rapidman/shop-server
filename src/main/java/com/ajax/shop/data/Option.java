@@ -14,13 +14,10 @@ import lombok.Setter;
 public class Option {
     private Group.GroupType type;
     private String name;
+    private String description;
     private Long productId;
     private Long categoryId;
+    private Long price;
+    private int goodsCount;
 
-    public Option(Group.GroupType type, String name, Long productId, Long categoryId) {
-        this.type = type;
-        this.name = name;
-        this.productId = productId;
-        this.categoryId = categoryId;
-    }
 }

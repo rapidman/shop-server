@@ -54,6 +54,11 @@ public class ShopApplication {
                         Goods goods = new Goods();
                         goods.setCategory(category);
                         goods.setName(name + i);
+                        goods.setDescription("The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.\n" +
+                                "                        A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally\n" +
+                                "                        bred for hunting.");
+                        goods.setGoodsCount(17);
+                        goods.setPrice(123456);
                         goodsList.add(goods);
                         goodsRepository.save(goods);
                     }
