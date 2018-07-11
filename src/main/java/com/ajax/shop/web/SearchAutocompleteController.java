@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +34,9 @@ public class SearchAutocompleteController {
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:4200")
-    public Page<Group> findCategoriesByQuery(@RequestParam String query,
-                                             Pageable pageable) {
-        Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
+    public Page<Group> findByQuery(@RequestParam String query,
+                                   Pageable pageable) {
+        Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), PageRequest.of(0, 100));
         List<Option> categoryOptions = categories.stream().map(c -> new Option(Group.GroupType.CATEGORY, c.getName(), null, c.getId()))
                 .collect(Collectors.toList());
         Page<Goods> goods = dataService.findGoods(new GoodsSearchCriteria().withName(query), pageable);
@@ -43,7 +44,7 @@ public class SearchAutocompleteController {
                 .collect(Collectors.toList());
         return new PageImpl<>(Arrays.asList(
                 new Group(Group.GroupType.CATEGORY, categoryOptions),
-                new Group(Group.GroupType.PRODUCT, goodsOptions)));
+                new Group(Group.GroupType.PRODUCT, goodsOptions)), pageable, goods.getTotalElements());
     }
 
 }
