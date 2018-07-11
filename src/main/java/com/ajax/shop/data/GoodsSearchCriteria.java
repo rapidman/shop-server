@@ -15,9 +15,15 @@ import lombok.ToString;
 @ToString
 public class GoodsSearchCriteria {
     private Long categoryId;
+    private String name;
 
     public GoodsSearchCriteria withCategoryId(Long categoryId) {
         setCategoryId(categoryId);
+        return this;
+    }
+
+    public GoodsSearchCriteria withName(String name){
+        setName(name);
         return this;
     }
 }

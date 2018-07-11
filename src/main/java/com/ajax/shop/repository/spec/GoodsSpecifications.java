@@ -1,7 +1,9 @@
 package com.ajax.shop.repository.spec;
 
 import com.ajax.shop.entity.QGoods;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -9,7 +11,15 @@ import com.querydsl.core.types.Predicate;
  * @since 17.06.18
  */
 public class GoodsSpecifications {
-    public static Predicate goodsBelongsToCategory(Long categoryId) {
-        return categoryId != null ? QGoods.goods.category.id.eq(categoryId) : null;
+    public static Predicate goodsBelongsToCategoryOrHasName(Long categoryId, String name) {
+        BooleanBuilder predicate = new BooleanBuilder();
+        if (categoryId != null) {
+            predicate.or(QGoods.goods.category.id.eq(categoryId));
+        }
+        if (!StringUtils.isEmpty(name)) {
+            predicate.or(QGoods.goods.name.containsIgnoreCase(name));
+        }
+        return predicate;
     }
+
 }

@@ -39,14 +39,14 @@ public class DataServiceImpl implements DataService{
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Goods> findGoods(GoodsSearchCriteria searchCriteria, Pageable pageable){
-        return goodsRepository.findAll(GoodsSpecifications.goodsBelongsToCategory(searchCriteria.getCategoryId()), pageable);
+    public Page<Goods> findGoods(GoodsSearchCriteria criteria, Pageable pageable){
+        return goodsRepository.findAll(GoodsSpecifications.goodsBelongsToCategoryOrHasName(criteria.getCategoryId(), criteria.getName()), pageable);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Category> findCategories(CategoriesSearchCriteria searchCriteria, Pageable pageable) {
-        Predicate predicate = CategorySpecifications.goodsBelongsToCategoryOrBrand(searchCriteria.getQuery());
+    public Page<Category> findCategories(CategoriesSearchCriteria criteria, Pageable pageable) {
+        Predicate predicate = CategorySpecifications.goodsBelongsToCategoryOrBrand(criteria.getQuery());
         return categoryRepository.findAll(predicate, pageable);
     }
 

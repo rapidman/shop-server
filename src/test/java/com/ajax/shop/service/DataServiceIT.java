@@ -69,6 +69,16 @@ public class DataServiceIT {
 
         //then:
         assertEquals(1, result.getTotalElements());
+
+        //and:
+        searchCriteria = new GoodsSearchCriteria().withName("oods");
+        result = dataService.findGoods(searchCriteria, PageRequest.of(0, 10));
+        assertEquals(1, result.getTotalElements());
+
+        //and:
+        searchCriteria = new GoodsSearchCriteria().withName(null).withCategoryId(null);
+        result = dataService.findGoods(searchCriteria, PageRequest.of(0, 10));
+        assertEquals(1, result.getTotalElements());
     }
 
     @Test
