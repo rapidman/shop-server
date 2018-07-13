@@ -1,5 +1,6 @@
 package com.ajax.shop.config;
 
+import com.ajax.shop.web.filter.SessionManagementFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +31,17 @@ public class AppConfig {
         config.setAllowedHeaders(Collections.singletonList("*"));
         source.registerCorsConfiguration("/**", config);
         FilterRegistrationBean bean = new FilterRegistrationBean(new CorsFilter(source));
+        bean.setOrder(Ordered.HIGHEST_PRECEDENCE - 1);
+        return bean;
+    }
+
+    @Bean
+    public FilterRegistrationBean registerRequestLogFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean(new SessionManagementFilter());
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
+
 
     @Autowired
     public void mbeanExporter(AnnotationMBeanExporter mBeanExporter) {
