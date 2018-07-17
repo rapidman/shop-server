@@ -16,6 +16,9 @@ import javax.validation.constraints.NotNull;
 public class OrderData {
     @NotNull
     private Long productId;
+    private Long categoryId;
     @NotNull
     private Integer count;
+    private String goodsName;
+    private String goodsDescription;
 }
