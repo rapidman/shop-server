@@ -39,6 +39,6 @@ public class GoodsController {
     @CrossOrigin(origins = "http://localhost:4200")
     public GoodsData findGoodsById(@PathVariable("goodsId") Long goodsId) {
         Goods entity = dataService.findGoodsById(goodsId);
-        return new GoodsData(entity.getId(), entity.getName());
+        return new GoodsData(entity);
     }
 }

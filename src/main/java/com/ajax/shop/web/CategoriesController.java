@@ -55,6 +55,6 @@ public class CategoriesController {
     @CrossOrigin(origins = "http://localhost:4200")
     public CategoryData findCategoryById(@PathVariable("catId") Long catId) {
         Category entity = dataService.findCategoryById(catId);
-        return new CategoryData(entity.getId(), entity.getName());
+        return new CategoryData(entity);
     }
 }

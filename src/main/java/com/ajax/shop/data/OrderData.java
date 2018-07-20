@@ -21,4 +21,5 @@ public class OrderData {
     private Integer count;
     private String goodsName;
     private String goodsDescription;
+    private Long price;
 }

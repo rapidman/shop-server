@@ -1,0 +1,1 @@
+ALTER TABLE ajax.goods ADD COLUMN present BOOLEAN DEFAULT false;

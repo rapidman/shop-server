@@ -36,5 +36,6 @@ public class Goods {
     @Column(name = "goods_count")
     private int goodsCount;
     private long price;
+    private boolean present;
 
 }

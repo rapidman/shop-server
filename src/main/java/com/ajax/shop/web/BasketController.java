@@ -41,6 +41,7 @@ public class BasketController {
         orderData.setGoodsDescription(goods.getDescription());
         orderData.setGoodsName(goods.getName());
         orderData.setCategoryId(goods.getCategory().getId());
+        orderData.setPrice(goods.getPrice());
         basket.getOrders().add(orderData);
         httpSession.setAttribute(BASKET_ATTR, basket);
     }
