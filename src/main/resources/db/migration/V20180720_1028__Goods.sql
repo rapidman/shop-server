@@ -1,0 +1,1 @@
+ALTER TABLE ajax.goods ADD COLUMN view_count INTEGER DEFAULT 0;

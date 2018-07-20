@@ -6,6 +6,7 @@ import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.data.Option;
 import com.ajax.shop.entity.Goods;
 import com.ajax.shop.service.DataService;
+import com.ajax.shop.service.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,13 +25,15 @@ import java.util.stream.Collectors;
 public class GoodsController {
     @Autowired
     private DataService dataService;
+    @Autowired
+    private RatingService ratingService;
 
     @GetMapping(Constants.GOODS_URI)
     @CrossOrigin(origins = "http://localhost:4200")
     public PageImpl<Option> findGoods(@RequestParam(required = false) Long categoryId,
                                       Pageable pageable) {
         Page<Goods> goods = dataService.findGoods(new GoodsSearchCriteria().withCategoryId(categoryId), pageable);
-        List<Option> options = goods.stream().map(g-> SearchAutocompleteController.createOption(g.getCategory(), g))
+        List<Option> options = goods.stream().map(g -> SearchAutocompleteController.createOption(g.getCategory(), g))
                 .collect(Collectors.toList());
         return new PageImpl<>(options, pageable, goods.getTotalElements());
     }
@@ -40,5 +43,14 @@ public class GoodsController {
     public GoodsData findGoodsById(@PathVariable("goodsId") Long goodsId) {
         Goods entity = dataService.findGoodsById(goodsId);
         return new GoodsData(entity);
+    }
+
+    @PostMapping(Constants.GOODS_URI + "/rate/{goodsId}")
+    public void addRate(@PathVariable("goodsId") Long goodsId) {
+        Goods entity = dataService.findGoodsById(goodsId);
+        entity.setViewCount(entity.getViewCount() + 1);
+        int maxViewCount = dataService.findMaxViewCount();
+        entity.setRate(ratingService.getRatingStars(maxViewCount, entity.getRate()));
+        dataService.save(entity);
     }
 }

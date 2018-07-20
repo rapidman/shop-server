@@ -61,4 +61,16 @@ public class DataServiceImpl implements DataService{
     public Category findCategoryById(Long catId) {
         return categoryRepository.getOne(catId);
     }
+
+    @Transactional
+    @Override
+    public void save(Goods goods) {
+        goodsRepository.save(goods);
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public int findMaxViewCount() {
+        return goodsRepository.findMaxViewCount();
+    }
 }

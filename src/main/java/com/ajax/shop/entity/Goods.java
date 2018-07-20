@@ -37,5 +37,8 @@ public class Goods {
     private int goodsCount;
     private long price;
     private boolean present;
+    private int rate;
+    @Column(name = "view_count")
+    private int viewCount;
 
 }

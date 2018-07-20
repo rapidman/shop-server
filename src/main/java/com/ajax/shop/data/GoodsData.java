@@ -17,11 +17,13 @@ public class GoodsData {
     private String name;
     private String description;
     private boolean present;
+    private int rate;
 
     public GoodsData(Goods entity) {
         setId(entity.getId());
         setName(entity.getName());
         setDescription(entity.getDescription());
         setPresent(entity.isPresent());
+        setRate(entity.getRate());
     }
 }

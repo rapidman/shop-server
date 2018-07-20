@@ -22,4 +22,8 @@ public interface DataService {
     Goods findGoodsById(Long goodsId);
 
     Category findCategoryById(Long catId);
+
+    void save(Goods goods);
+
+    int findMaxViewCount();
 }
