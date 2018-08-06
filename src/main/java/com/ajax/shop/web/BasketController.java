@@ -3,8 +3,11 @@ package com.ajax.shop.web;
 import com.ajax.shop.Constants;
 import com.ajax.shop.data.BasketData;
 import com.ajax.shop.data.OrderData;
+import com.ajax.shop.data.UserOrderData;
 import com.ajax.shop.entity.Goods;
 import com.ajax.shop.service.DataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/v1" + Constants.BASKET_URI)
 public class BasketController {
+    private static final Logger log = LoggerFactory.getLogger(BasketController.class);
     public static final String BASKET_ATTR = "BASKET_ATTR";
     @Autowired
     private DataService dataService;
@@ -51,6 +55,14 @@ public class BasketController {
     public void deleteOrder(@PathVariable("goodsId") Long goodsId) {
         BasketData basket = getBasket();
         basket.getOrders().removeIf(item -> item.getProductId().equals(goodsId));
+        httpSession.setAttribute(BASKET_ATTR, basket);
+    }
+
+    @PostMapping("/order")
+    public void makeOrder(@RequestBody @Valid UserOrderData userOrderData){
+        log.info(userOrderData.toString());
+        BasketData basket = getBasket();
+        basket.getOrders().clear();
         httpSession.setAttribute(BASKET_ATTR, basket);
     }
 }
