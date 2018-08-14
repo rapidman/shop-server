@@ -6,6 +6,7 @@ import com.ajax.shop.data.OrderData;
 import com.ajax.shop.data.UserOrderData;
 import com.ajax.shop.entity.Goods;
 import com.ajax.shop.service.DataService;
+import com.ajax.shop.service.EmailService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class BasketController {
     private String baseUrl;
     @Autowired
     private HttpSession httpSession;
+    private EmailService emailService;
 
     @GetMapping
     @CrossOrigin(origins = "http://localhost:4200")
@@ -59,9 +61,10 @@ public class BasketController {
     }
 
     @PostMapping("/order")
-    public void makeOrder(@RequestBody @Valid UserOrderData userOrderData){
+    public void makeOrder(@RequestBody @Valid UserOrderData userOrderData) {
         log.info(userOrderData.toString());
         BasketData basket = getBasket();
+        emailService.sendEmail(userOrderData);
         basket.getOrders().clear();
         httpSession.setAttribute(BASKET_ATTR, basket);
     }

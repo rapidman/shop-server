@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h3>Зравствуйте <span th:text="${userName}"/>!</h3>
+<p>
+    Спасибо за посещение нашего магазина <b>"ТекСтиль"</b>.
+
+</p>
+
+<p>
+    Ваша корзина:
+</p>
+
+<ul>
+<li th:each="product : ${products}" th:text="${product.goodsName}"></li>
+</ul>
+
+<p>
+    По вопросу выполнения заказа с Вами свяжется наш менеджер по продажам.
+</p>
+
+</body>
+</html>

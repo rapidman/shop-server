@@ -3,9 +3,14 @@ package com.ajax.shop;
 import com.ajax.shop.entity.Car;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
+import com.ajax.shop.entity.Template;
 import com.ajax.shop.repository.CarRepository;
 import com.ajax.shop.repository.CategoryRepository;
 import com.ajax.shop.repository.GoodsRepository;
+import com.ajax.shop.repository.TemplateRepository;
+import com.ajax.shop.service.TemplateService;
+import com.google.common.base.Charsets;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
@@ -19,6 +24,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +41,8 @@ public class ShopApplication {
     @Bean
     ApplicationRunner init(CarRepository carRepository,
                            GoodsRepository goodsRepository,
-                           CategoryRepository categoryRepository) {
+                           CategoryRepository categoryRepository,
+                           TemplateRepository templateRepository) {
         return args -> {
 //            Stream.of("Ferrari", "Jaguar", "Porsche", "Lamborghini", "Bugatti",
 //                    "AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV").forEach(name -> {
@@ -65,7 +73,18 @@ public class ShopApplication {
                     category.setGoodsList(goodsList);
                 });
             }
+            initTemplates(templateRepository);
         };
+    }
+
+    public static void initTemplates(TemplateRepository templateRepository) throws IOException {
+        if(templateRepository.findAll().isEmpty()){
+            Template entity = new Template();
+            entity.setKey(TemplateService.EMAIL_ORDER_TEMPLATE);
+            InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream("templates/emailOrder.html");
+            entity.setContent(IOUtils.toString(inputStream, Charsets.UTF_8));
+            templateRepository.save(entity);
+        }
     }
 
 }
