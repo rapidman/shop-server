@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * 05.05.18
  */
 @RepositoryRestResource(collectionResourceRel = "goods", path = "goods")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
 public interface GoodsRepository extends JpaRepository<Goods, Long>,
         QuerydslPredicateExecutor<Goods> {
     Page<Goods> findByCategoryNameIgnoreCaseContainingOrderByName(@Param("categoryName") String categoryName, Pageable pageable);

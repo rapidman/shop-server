@@ -33,7 +33,7 @@ public class CategoriesController {
     private String baseUrl;
 
     @GetMapping(Constants.CATEGORIES_URI)
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public Page<Category> findAllCategories(Pageable pageable){
         Page<Category> result = dataService.getAllCategories(pageable);
         for (Category category : result) {
@@ -43,7 +43,7 @@ public class CategoriesController {
     }
 
     @GetMapping(Constants.SEARCH_CATEGORIES_URI)
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public Page<Group> findCategoriesByQuery(@RequestParam String query,
                                              Pageable pageable) {
         Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
@@ -52,7 +52,7 @@ public class CategoriesController {
     }
 
     @GetMapping(Constants.CATEGORIES_URI + "/{catId}")
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public CategoryData findCategoryById(@PathVariable("catId") Long catId) {
         Category entity = dataService.findCategoryById(catId);
         return new CategoryData(entity);

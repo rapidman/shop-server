@@ -33,7 +33,7 @@ public class SearchAutocompleteController {
 
 
     @GetMapping
-    @CrossOrigin(origins = "http://localhost:4200")
+    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public Page<Group> findByQuery(@RequestParam String query,
                                    Pageable pageable) {
         Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), PageRequest.of(0, 100));
