@@ -31,6 +31,7 @@ public class BasketController {
     private String baseUrl;
     @Autowired
     private HttpSession httpSession;
+    @Autowired
     private EmailService emailService;
 
     @GetMapping
