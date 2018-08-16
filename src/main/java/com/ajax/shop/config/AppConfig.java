@@ -12,6 +12,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 /**
@@ -26,7 +27,7 @@ public class AppConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOrigins(Collections.singletonList({"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"}));
+        config.setAllowedOrigins(Arrays.asList("https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"));
         config.setAllowedMethods(Collections.singletonList("*"));
         config.setAllowedHeaders(Collections.singletonList("*"));
         source.registerCorsConfiguration("/**", config);
