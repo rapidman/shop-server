@@ -1,5 +1,6 @@
 package com.ajax.shop.service;
 
+import com.ajax.shop.data.CategoryData;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.entity.Category;
@@ -26,4 +27,6 @@ public interface DataService {
     void save(Goods goods);
 
     int findMaxViewCount();
+
+    Category createCategory(CategoryData categoryData);
 }

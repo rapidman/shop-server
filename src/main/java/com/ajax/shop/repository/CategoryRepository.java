@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
  * 05.05.18
  */
 @RepositoryRestResource(collectionResourceRel = "categories", path = "categories")
-@CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+@CrossOrigin(origins = {"*"})
 @Transactional
 public interface CategoryRepository extends JpaRepository<Category, Long>,
         QuerydslPredicateExecutor<Category> {

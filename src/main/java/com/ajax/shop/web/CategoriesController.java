@@ -13,8 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/api/v1")
+@Valid
+@CrossOrigin(origins = {"*"})
 public class CategoriesController {
     @Autowired
     private DataService dataService;
@@ -33,8 +37,7 @@ public class CategoriesController {
     private String baseUrl;
 
     @GetMapping(Constants.CATEGORIES_URI)
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
-    public Page<Category> findAllCategories(Pageable pageable){
+    public Page<Category> findAllCategories(Pageable pageable) {
         Page<Category> result = dataService.getAllCategories(pageable);
         for (Category category : result) {
             category.setLink(baseUrl + Constants.GOODS_URI);
@@ -43,7 +46,6 @@ public class CategoriesController {
     }
 
     @GetMapping(Constants.SEARCH_CATEGORIES_URI)
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public Page<Group> findCategoriesByQuery(@RequestParam String query,
                                              Pageable pageable) {
         Page<Category> categories = dataService.findCategories(new CategoriesSearchCriteria().withQuery(query), pageable);
@@ -52,9 +54,15 @@ public class CategoriesController {
     }
 
     @GetMapping(Constants.CATEGORIES_URI + "/{catId}")
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
     public CategoryData findCategoryById(@PathVariable("catId") Long catId) {
         Category entity = dataService.findCategoryById(catId);
         return new CategoryData(entity);
+    }
+
+    @PostMapping(Constants.CATEGORIES_URI)
+    @ResponseStatus(HttpStatus.CREATED)
+    public CategoryData create(CategoryData categoryData) {
+        Category category = dataService.createCategory(categoryData);
+        return new CategoryData(category);
     }
 }

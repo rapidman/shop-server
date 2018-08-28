@@ -4,3 +4,7 @@
  - https://spring.io/guides/gs/accessing-data-rest/
  
  https://devcenter.heroku.com/articles/getting-started-with-java
+ 
+ How to reset PG Database on Heroku?
+ heroku pg:reset DATABASE_URL
+ heroku restart

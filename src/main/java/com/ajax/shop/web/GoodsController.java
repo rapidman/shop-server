@@ -29,7 +29,7 @@ public class GoodsController {
     private RatingService ratingService;
 
     @GetMapping(Constants.GOODS_URI)
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+    @CrossOrigin(origins = {"*"})
     public PageImpl<Option> findGoods(@RequestParam(required = false) Long categoryId,
                                       Pageable pageable) {
         Page<Goods> goods = dataService.findGoods(new GoodsSearchCriteria().withCategoryId(categoryId), pageable);
@@ -39,7 +39,7 @@ public class GoodsController {
     }
 
     @GetMapping(Constants.GOODS_URI + "/{goodsId}")
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+    @CrossOrigin(origins = {"*"})
     public GoodsData findGoodsById(@PathVariable("goodsId") Long goodsId) {
         Goods entity = dataService.findGoodsById(goodsId);
         return new GoodsData(entity);

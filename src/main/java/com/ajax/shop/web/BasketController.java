@@ -35,13 +35,13 @@ public class BasketController {
     private EmailService emailService;
 
     @GetMapping
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+    @CrossOrigin(origins = {"*"})
     public BasketData getBasket() {
         return (BasketData) httpSession.getAttribute(BASKET_ATTR);
     }
 
     @PutMapping
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+    @CrossOrigin(origins = {"*"})
     public void putOrder(@Valid @RequestBody OrderData orderData) {
         BasketData basket = getBasket();
         Goods goods = dataService.findGoodsById(orderData.getProductId());
@@ -54,7 +54,7 @@ public class BasketController {
     }
 
     @DeleteMapping("/{goodsId}")
-    @CrossOrigin(origins = {"https://quiet-fjord-85272.herokuapp.com", "http://localhost:4200"})
+    @CrossOrigin(origins = {"*"})
     public void deleteOrder(@PathVariable("goodsId") Long goodsId) {
         BasketData basket = getBasket();
         basket.getOrders().removeIf(item -> item.getProductId().equals(goodsId));

@@ -1,6 +1,7 @@
 package com.ajax.shop.service.impl;
 
 import com.ajax.shop.data.CategoriesSearchCriteria;
+import com.ajax.shop.data.CategoryData;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
@@ -72,5 +73,14 @@ public class DataServiceImpl implements DataService{
     @Override
     public int findMaxViewCount() {
         return goodsRepository.findMaxViewCount();
+    }
+
+    @Transactional
+    @Override
+    public Category createCategory(CategoryData categoryData) {
+        Category category = new Category();
+        category.setName(categoryData.getName());
+        categoryRepository.save(category);
+        return category;
     }
 }
