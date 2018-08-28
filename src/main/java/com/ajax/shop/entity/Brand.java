@@ -1,6 +1,9 @@
 package com.ajax.shop.entity;
 
-import lombok.*;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -15,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Brand {
+public class Brand extends AuditEntity {
     @Id
     @SequenceGenerator(sequenceName = "ajax.brand_id_seq", name = "brandIdSequence", allocationSize = 1)
     @GeneratedValue(generator = "brandIdSequence", strategy = GenerationType.SEQUENCE)

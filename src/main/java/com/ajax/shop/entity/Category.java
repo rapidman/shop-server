@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @ToString(exclude = {"goodsList"})
 @EqualsAndHashCode
-public class Category {
+public class Category extends AuditEntity {
     @Id
     @SequenceGenerator(sequenceName = "ajax.category_id_seq", name = "categoryIdSequence", allocationSize = 1)
     @GeneratedValue(generator = "categoryIdSequence", strategy = GenerationType.SEQUENCE)

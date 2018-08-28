@@ -7,6 +7,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.ConfigurableEnvironment;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -20,6 +21,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @EntityScan(basePackages = {"com.ajax.shop.entity"})
 @EnableJpaRepositories(basePackages = {"com.ajax.shop.repository"})
+@EnableJpaAuditing
 public class DatasourceConfig {
     @Resource
     private ConfigurableEnvironment environment;

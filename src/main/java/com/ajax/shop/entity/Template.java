@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class Template {
+public class Template extends AuditEntity {
     @Id
     @SequenceGenerator(sequenceName = "ajax.template_id_seq", name = "templateIdSequence", allocationSize = 1)
     @GeneratedValue(generator = "templateIdSequence", strategy = GenerationType.SEQUENCE)

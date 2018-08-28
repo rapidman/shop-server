@@ -25,6 +25,7 @@
 
         <postgresql-embedded.version>2.6</postgresql-embedded.version>
         <io-springfox.version>2.8.0</io-springfox.version>
+        <postgresql.version>9.3-1100-jdbc41</postgresql.version>
     </properties>
 
     <dependencies>

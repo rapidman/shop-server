@@ -1,7 +1,6 @@
 package com.ajax.shop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @ToString(exclude = {"category"})
 @EqualsAndHashCode
-public class Goods {
+public class Goods extends AuditEntity {
     @Id
     @SequenceGenerator(sequenceName = "ajax.goods_id_seq", name = "goodsIdSequence", allocationSize = 1)
     @GeneratedValue(generator = "goodsIdSequence", strategy = GenerationType.SEQUENCE)
