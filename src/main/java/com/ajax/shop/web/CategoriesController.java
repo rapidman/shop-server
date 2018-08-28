@@ -60,4 +60,9 @@ public class CategoriesController {
         Category category = dataService.createCategory(request);
         return new CategoryData(category);
     }
+
+    @GetMapping(Constants.CATEGORIES_URI + "/{catId}")
+    public void deleteCategory(@PathVariable("catId") Long catId){
+        dataService.deleteCategoryById(catId);
+    }
 }

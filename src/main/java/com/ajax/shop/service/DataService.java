@@ -29,4 +29,6 @@ public interface DataService {
     int findMaxViewCount();
 
     Category createCategory(CreateCategoryRequest request);
+
+    void deleteCategoryById(Long catId);
 }

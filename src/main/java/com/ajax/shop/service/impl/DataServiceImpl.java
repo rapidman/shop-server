@@ -11,18 +11,23 @@ import com.ajax.shop.repository.spec.CategorySpecifications;
 import com.ajax.shop.repository.spec.GoodsSpecifications;
 import com.ajax.shop.service.DataService;
 import com.querydsl.core.types.Predicate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityNotFoundException;
+
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
  * 07.06.18
  */
 @Service
-public class DataServiceImpl implements DataService{
+public class DataServiceImpl implements DataService {
+    private static final Logger log = LoggerFactory.getLogger(DataServiceImpl.class);
     @Autowired
     private CategoryRepository categoryRepository;
     @Autowired
@@ -30,7 +35,7 @@ public class DataServiceImpl implements DataService{
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Category> getAllCategories(Pageable pageable){
+    public Page<Category> getAllCategories(Pageable pageable) {
         Page<Category> result = categoryRepository.findAll(pageable);
         for (Category category : result) {
             category.setGoodsSize(category.getGoodsList().size());
@@ -40,7 +45,7 @@ public class DataServiceImpl implements DataService{
 
     @Transactional(readOnly = true)
     @Override
-    public Page<Goods> findGoods(GoodsSearchCriteria criteria, Pageable pageable){
+    public Page<Goods> findGoods(GoodsSearchCriteria criteria, Pageable pageable) {
         return goodsRepository.findAll(GoodsSpecifications.goodsBelongsToCategoryOrHasName(criteria.getCategoryId(), criteria.getName()), pageable);
     }
 
@@ -82,5 +87,19 @@ public class DataServiceImpl implements DataService{
         category.setName(request.getName());
         categoryRepository.save(category);
         return category;
+    }
+
+    @Transactional
+    @Override
+    public void deleteCategoryById(Long catId) {
+        try {
+            Category category = categoryRepository.getOne(catId);
+            for (Goods goods : category.getGoodsList()) {
+                goodsRepository.deleteById(goods.getId());
+            }
+            categoryRepository.delete(category);
+        } catch (EntityNotFoundException e) {
+            log.warn("Can't find by id=" + catId, e);
+        }
     }
 }
