@@ -1,7 +1,7 @@
 package com.ajax.shop.service.impl;
 
 import com.ajax.shop.data.CategoriesSearchCriteria;
-import com.ajax.shop.data.CategoryData;
+import com.ajax.shop.data.CreateCategoryRequest;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
@@ -77,9 +77,9 @@ public class DataServiceImpl implements DataService{
 
     @Transactional
     @Override
-    public Category createCategory(CategoryData categoryData) {
+    public Category createCategory(CreateCategoryRequest request) {
         Category category = new Category();
-        category.setName(categoryData.getName());
+        category.setName(request.getName());
         categoryRepository.save(category);
         return category;
     }

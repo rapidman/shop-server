@@ -1,23 +1,18 @@
 package com.ajax.shop.web;
 
 import com.ajax.shop.Constants;
-import com.ajax.shop.data.CategoriesSearchCriteria;
-import com.ajax.shop.data.CategoryData;
-import com.ajax.shop.data.Group;
-import com.ajax.shop.data.Option;
+import com.ajax.shop.data.*;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -61,8 +56,8 @@ public class CategoriesController {
 
     @PostMapping(Constants.CATEGORIES_URI)
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryData create(CategoryData categoryData) {
-        Category category = dataService.createCategory(categoryData);
+    public CategoryData create(@RequestBody CreateCategoryRequest request) {
+        Category category = dataService.createCategory(request);
         return new CategoryData(category);
     }
 }
