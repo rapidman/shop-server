@@ -1,6 +1,8 @@
 package com.ajax.shop.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -23,6 +25,7 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(basePackages = {"com.ajax.shop.repository"})
 @EnableJpaAuditing
 public class DatasourceConfig {
+    private static final Logger log = LoggerFactory.getLogger(DatasourceConfig.class);
     @Resource
     private ConfigurableEnvironment environment;
     @Value("${postgresql.username}")
@@ -33,6 +36,7 @@ public class DatasourceConfig {
     @Bean
     @ConfigurationProperties(prefix = "postgresql.hikari")
     public DataSource dataSource() {
+        log.info("url:{},dbUserName:{},dbUserPass:{}", environment.getProperty("postgresql.url"), dbUserName, dbUserPass);
         HikariDataSource dataSource = new HikariDataSource();
         dataSource.setJdbcUrl(environment.getProperty("postgresql.url"));
         dataSource.setUsername(dbUserName);
