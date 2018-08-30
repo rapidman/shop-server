@@ -4,6 +4,8 @@ import com.ajax.shop.Constants;
 import com.ajax.shop.data.*;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.service.DataService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @Valid
 @CrossOrigin(origins = {"*"})
 public class CategoriesController {
+    private static final Logger log = LoggerFactory.getLogger(CategoriesController.class);
     @Autowired
     private DataService dataService;
     @Value("${baseUrl}")
@@ -57,6 +60,7 @@ public class CategoriesController {
     @PostMapping(Constants.CATEGORIES_URI)
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryData create(@RequestBody CreateCategoryRequest request) {
+        log.info("create {}", request);
         Category category = dataService.createCategory(request);
         return new CategoryData(category);
     }
