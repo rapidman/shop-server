@@ -65,7 +65,7 @@ public class CategoriesController {
         return new CategoryData(category);
     }
 
-    @PostMapping(Constants.CATEGORIES_URI)
+    @PutMapping(Constants.CATEGORIES_URI)
     public void update(@RequestBody EditCategoryRequest request) {
         log.info("update {}", request);
         dataService.updateCategory(request);
