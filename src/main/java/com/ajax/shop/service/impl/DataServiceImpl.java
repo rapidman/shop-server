@@ -5,6 +5,7 @@ import com.ajax.shop.data.CreateCategoryRequest;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
+import com.ajax.shop.exception.ValidationException;
 import com.ajax.shop.repository.CategoryRepository;
 import com.ajax.shop.repository.GoodsRepository;
 import com.ajax.shop.repository.spec.CategorySpecifications;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
@@ -83,6 +85,10 @@ public class DataServiceImpl implements DataService {
     @Transactional
     @Override
     public Category createCategory(CreateCategoryRequest request) {
+        Optional<Category> existsCategory = categoryRepository.findByName(request.getName());
+        if(existsCategory.isPresent()){
+            throw new ValidationException("Категория с нименованием '" + request.getName() + "' уже существует!");
+        }
         Category category = new Category();
         category.setName(request.getName());
         categoryRepository.save(category);

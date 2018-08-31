@@ -1,7 +1,7 @@
 package com.ajax.shop.web.filter;
 
 import com.ajax.shop.data.BasketData;
-import com.ajax.shop.web.BasketController;
+import com.ajax.shop.web.controller.BasketController;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;

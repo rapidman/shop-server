@@ -1,4 +1,4 @@
-package com.ajax.shop.web;
+package com.ajax.shop.web.controller;
 
 import com.ajax.shop.Constants;
 import com.ajax.shop.data.BasketData;

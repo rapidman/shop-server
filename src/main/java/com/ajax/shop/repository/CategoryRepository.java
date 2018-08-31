@@ -10,6 +10,8 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
+import java.util.Optional;
+
 /**
  * @author <a href="mailto:t.saidov@fasten.com">Timur Saidov</a>.
  * 05.05.18
@@ -20,4 +22,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public interface CategoryRepository extends JpaRepository<Category, Long>,
         QuerydslPredicateExecutor<Category> {
     Page<Category> findByNameIgnoreCaseContainingOrderByName(@Param("name") String name, Pageable pageable);
+
+    Optional<Category> findByName(String name);
 }
