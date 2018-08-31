@@ -2,6 +2,7 @@ package com.ajax.shop.service.impl;
 
 import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.data.CreateCategoryRequest;
+import com.ajax.shop.data.EditCategoryRequest;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.entity.Category;
 import com.ajax.shop.entity.Goods;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.constraints.NotBlank;
 import java.util.Optional;
 
 /**
@@ -85,14 +87,26 @@ public class DataServiceImpl implements DataService {
     @Transactional
     @Override
     public Category createCategory(CreateCategoryRequest request) {
-        Optional<Category> existsCategory = categoryRepository.findByName(request.getName());
-        if(existsCategory.isPresent()){
-            throw new ValidationException("Категория с нименованием '" + request.getName() + "' уже существует!");
-        }
+        checkUniqName(request.getName());
         Category category = new Category();
         category.setName(request.getName());
         categoryRepository.save(category);
         return category;
+    }
+
+    private void checkUniqName(@NotBlank String name) {
+        Optional<Category> existsCategory = categoryRepository.findByName(name);
+        if(existsCategory.isPresent()){
+            throw new ValidationException("Категория с наименованием '" + name + "' уже существует!");
+        }
+    }
+
+    @Override
+    public void updateCategory(EditCategoryRequest request) {
+        checkUniqName(request.getName());
+        Category category = categoryRepository.getOne(request.getId());
+        category.setName(request.getName());
+        categoryRepository.save(category);
     }
 
     @Transactional

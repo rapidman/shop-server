@@ -1,6 +1,7 @@
 package com.ajax.shop.service;
 
 import com.ajax.shop.data.CreateCategoryRequest;
+import com.ajax.shop.data.EditCategoryRequest;
 import com.ajax.shop.data.GoodsSearchCriteria;
 import com.ajax.shop.data.CategoriesSearchCriteria;
 import com.ajax.shop.entity.Category;
@@ -29,6 +30,8 @@ public interface DataService {
     int findMaxViewCount();
 
     Category createCategory(CreateCategoryRequest request);
+
+    void updateCategory(EditCategoryRequest request);
 
     void deleteCategoryById(Long catId);
 }

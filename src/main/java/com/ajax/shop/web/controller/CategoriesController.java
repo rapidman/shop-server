@@ -65,8 +65,14 @@ public class CategoriesController {
         return new CategoryData(category);
     }
 
+    @PostMapping(Constants.CATEGORIES_URI)
+    public void update(@RequestBody EditCategoryRequest request) {
+        log.info("update {}", request);
+        dataService.updateCategory(request);
+    }
+
     @DeleteMapping(Constants.CATEGORIES_URI + "/{catId}")
-    public void deleteCategory(@PathVariable("catId") Long catId){
+    public void deleteCategory(@PathVariable("catId") Long catId) {
         dataService.deleteCategoryById(catId);
     }
 }
